@@ -47,9 +47,9 @@ class TensorboardWriter():
             self.add_scalar('steps_per_sec', 1 / duration.total_seconds())
             self.timer = datetime.now()
 
-    # def add_graph(self, model, input_to_model=None, verbose=False, use_strict_trace=True):
-        # if self.writer is not None:
-            # self.writer.add_graph(model, input_to_model, verbose, use_strict_trace)
+    def add_graph(self, model, input_to_model=None, verbose=False, use_strict_trace=True):
+        if self.writer is not None:
+            self.writer.add_graph(model, input_to_model, verbose, use_strict_trace)
 
     def __getattr__(self, name):
         """

@@ -1,20 +1,25 @@
 import torch
 
+class Metrics:
+    @staticmethod
+    def calculate_loss(predictions, targets):
+        loss = torch.mean((predictions - targets) ** 2)
+        return loss
 
-def accuracy(output, target):
-    with torch.no_grad():
-        pred = torch.argmax(output, dim=1)
-        assert pred.shape[0] == len(target)
-        correct = 0
-        correct += torch.sum(pred == target).item()
-    return correct / len(target)
+    @staticmethod
+    def calculate_accuracy(predictions, targets):
+        correct = torch.abs(predictions - targets) < 0.05  
+        accuracy = torch.mean(correct.float()) 
+        return accuracy
 
+    @staticmethod
+    def calculate_validation_loss(predictions, targets):
+        return Metrics.calculate_loss(predictions, targets)
 
-def top_k_acc(output, target, k=3):
-    with torch.no_grad():
-        pred = torch.topk(output, k, dim=1)[1]
-        assert pred.shape[0] == len(target)
-        correct = 0
-        for i in range(k):
-            correct += torch.sum(pred[:, i] == target).item()
-    return correct / len(target)
+    @staticmethod
+    def log_metrics(epoch, train_loss, val_loss, train_accuracy=None, val_accuracy=None):
+        if train_accuracy is not None and val_accuracy is not None:
+            print(f"Epoch: {epoch}, Train Loss: {train_loss:.3f}, Train Accuracy: {train_accuracy:.3f}, "
+                  f"Validation Loss: {val_loss:.3f}, Validation Accuracy: {val_accuracy:.3f}")
+        else:
+            print(f"Epoch: {epoch}, Train Loss: {train_loss:.3f}, Validation Loss: {val_loss:.3f}")

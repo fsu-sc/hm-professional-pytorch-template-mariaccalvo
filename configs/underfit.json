@@ -1,0 +1,11 @@
+{
+        "input_size": 1,
+        "output_size": 1,
+        "hidden_layers": 1,
+        "neurons_per_layer": 10,
+        "activation_hidden": "relu",
+        "activation_output": "linear",
+        "batch_size": 16,
+        "epochs": 100,
+        "learning_rate": 0.001
+}
